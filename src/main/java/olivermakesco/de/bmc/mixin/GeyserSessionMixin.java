@@ -25,12 +25,15 @@ public class GeyserSessionMixin {
             at = @At(
                     value = "INVOKE",
                     target = "Lorg/geysermc/geyser/session/UpstreamSession;sendPacket(Lcom/nukkitx/protocol/bedrock/BedrockPacket;)V"
-            )
+            ),
+            remap = false
     )
     public void editPacket(UpstreamSession upstreamSession, @NonNull BedrockPacket packet) {
         if (!(packet instanceof StartGamePacket startGamePacket)) return;
         startGamePacket.getExperiments().add(new ExperimentData("data_driven_items", true));
         int startBlockSize = Registry.BLOCK.size() - BedrockModCompat.blockRegistry.size() + 20;
+
+
 
         upstreamSession.sendPacket(startGamePacket);
 

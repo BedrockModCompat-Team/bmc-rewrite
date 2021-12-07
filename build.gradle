@@ -9,18 +9,6 @@ targetCompatibility = JavaVersion.VERSION_17
 archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
-
-repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
-	
-	maven { url = 'https://repo.opencollab.dev/maven-snapshots/' }
-	maven { url = 'https://repo.opencollab.dev/maven-releases' }
-}
-
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -33,6 +21,24 @@ dependencies {
 	implementation 'org.geysermc:core:2.0.0-SNAPSHOT'
 	implementation 'com.nukkitx:nbt:2.1.1'
 	implementation 'com.nukkitx.protocol:bedrock-v475:2.9.4-SNAPSHOT'
+}
+
+repositories {
+	maven {
+		url = uri('https://repo.opencollab.dev/maven-releases/')
+	}
+
+	maven {
+		url = uri('https://repo.opencollab.dev/maven-snapshots/')
+	}
+
+	maven {
+		url = uri('https://jitpack.io')
+	}
+
+	maven {
+		url = uri('https://oss.sonatype.org/content/repositories/snapshots/')
+	}
 }
 
 processResources {
