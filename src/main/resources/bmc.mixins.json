@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "olivermakesco.de.bmc.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "GeyserSessionMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
