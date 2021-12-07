@@ -25,12 +25,14 @@ public class BedrockModCompat implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		RegistryEntryAddedCallback.event(Registry.ITEM).register((rawId, id, object) -> {
+			LOGGER.info("Registering Bedrock Item");
 			if (!Objects.equals(id.getNamespace(), "minecraft"))
-				itemRegistry.put(id,object);
+				BedrockModCompat.itemRegistry.put(id,object);
 		});
 		RegistryEntryAddedCallback.event(Registry.BLOCK).register((rawId, id, object) -> {
+			LOGGER.info("Registering Bedrock Block");
 			if (!Objects.equals(id.getNamespace(), "minecraft"))
-				blockRegistry.put(id,object);
+				BedrockModCompat.blockRegistry.put(id,object);
 		});
 
 		List<BedrockModInitializer> initializers = FabricLoader.getInstance().getEntrypoints("bedrock", BedrockModInitializer.class);

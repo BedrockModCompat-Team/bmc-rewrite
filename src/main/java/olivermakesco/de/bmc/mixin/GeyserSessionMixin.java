@@ -28,17 +28,25 @@ public class GeyserSessionMixin {
             ),
             remap = false
     )
-    public void editPacket(UpstreamSession upstreamSession, @NonNull BedrockPacket packet) {
+    public void editStartPacket(UpstreamSession upstreamSession, @NonNull BedrockPacket packet) {
         if (!(packet instanceof StartGamePacket startGamePacket)) return;
         startGamePacket.getExperiments().add(new ExperimentData("data_driven_items", true));
         int startBlockSize = Registry.BLOCK.size() - BedrockModCompat.blockRegistry.size() + 20;
-
-
-
         upstreamSession.sendPacket(startGamePacket);
+    }
 
+    @Redirect(
+            method = "connect()V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lorg/geysermc/geyser/session/UpstreamSession;sendPacket(Lcom/nukkitx/protocol/bedrock/BedrockPacket;)V",
+                    ordinal = 0
+            ),
+            remap = false
+    )
+    public void editItemPacket(UpstreamSession upstreamSession, @NonNull BedrockPacket packet) {
+        if (!(packet instanceof ItemComponentPacket itemComponentPacket)) return;
         int startItemSize = Registry.ITEM.size() - BedrockModCompat.itemRegistry.size() + 20;
-        ItemComponentPacket itemComponentPacket = new ItemComponentPacket();
         for (ResourceLocation id : BedrockModCompat.itemRegistry.keySet()) {
             Item item = BedrockModCompat.itemRegistry.get(id);
             NbtMapBuilder propertiesBuilder = NbtMap.builder();
@@ -63,6 +71,9 @@ public class GeyserSessionMixin {
 
             itemComponentPacket.getItems().add(new ComponentItemData("zzz"+id,itemBuilder.build()));
         }
+
+        BedrockModCompat.LOGGER.info("Sending item packet");
+        BedrockModCompat.LOGGER.info(BedrockModCompat.itemRegistry.size());
         upstreamSession.sendPacket(itemComponentPacket);
     }
 }
