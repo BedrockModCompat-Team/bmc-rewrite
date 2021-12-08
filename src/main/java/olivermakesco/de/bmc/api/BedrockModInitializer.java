@@ -9,4 +9,6 @@ public interface BedrockModInitializer {
      * @return the id of your mod
      */
     String init();
+
+    //TODO: More API stuff
 }

@@ -31,7 +31,7 @@ public class GeyserSessionMixin {
     public void editStartPacket(UpstreamSession upstreamSession, @NonNull BedrockPacket packet) {
         if (!(packet instanceof StartGamePacket startGamePacket)) return;
         startGamePacket.getExperiments().add(new ExperimentData("data_driven_items", true));
-        int startBlockSize = Registry.BLOCK.size() - BedrockModCompat.blockRegistry.size() + 20;
+        //TODO: Allow creation of custom blocks
         upstreamSession.sendPacket(startGamePacket);
     }
 
@@ -46,7 +46,7 @@ public class GeyserSessionMixin {
     )
     public void editItemPacket(UpstreamSession upstreamSession, @NonNull BedrockPacket packet) {
         if (!(packet instanceof ItemComponentPacket itemComponentPacket)) return;
-        int startItemSize = Registry.ITEM.size() - BedrockModCompat.itemRegistry.size() + 20;
+        //TODO: Use bedrock IDs to generate the proper items
         for (ResourceLocation id : BedrockModCompat.itemRegistry.keySet()) {
             Item item = BedrockModCompat.itemRegistry.get(id);
             NbtMapBuilder propertiesBuilder = NbtMap.builder();
@@ -66,7 +66,7 @@ public class GeyserSessionMixin {
 
             NbtMapBuilder itemBuilder = NbtMap.builder();
             itemBuilder.put("components",components);
-            itemBuilder.put("id",startItemSize++);
+            itemBuilder.put("id",0);
             itemBuilder.put("name","zzz"+id);
 
             itemComponentPacket.getItems().add(new ComponentItemData("zzz"+id,itemBuilder.build()));
