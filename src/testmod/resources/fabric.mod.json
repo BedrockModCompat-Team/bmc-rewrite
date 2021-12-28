@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "bmc-testmod",
+  "version": "${version}",
+
+  "name": "Bedrock Mod Compat TestMod",
+  "description": "Test mod that adds a bunch of things for testing",
+  "authors": [
+  ],
+  "contact": {
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+  "icon": "",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "olivermakesco.de.bmc.testmod.TestMod"
+    ]
+  },
+  "mixins": [
+  ],
+
+  "depends": {
+  },
+  "suggests": {
+  }
+}
