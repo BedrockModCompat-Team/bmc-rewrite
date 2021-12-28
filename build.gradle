@@ -9,19 +9,6 @@ targetCompatibility = JavaVersion.VERSION_17
 archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
-dependencies {
-	// To change the versions see the gradle.properties file
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
-	implementation 'org.geysermc:core:2.0.0-SNAPSHOT'
-	implementation 'com.nukkitx:nbt:2.1.1'
-	implementation 'com.nukkitx.protocol:bedrock-v475:2.9.4-SNAPSHOT'
-}
 
 repositories {
 	maven {
@@ -38,6 +25,45 @@ repositories {
 
 	maven {
 		url = uri('https://oss.sonatype.org/content/repositories/snapshots/')
+	}
+}
+
+dependencies {
+	// To change the versions see the gradle.properties file
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.officialMojangMappings()
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	modImplementation('org.geysermc.platform:GeyserMC_Geyser-Fabric_java-1.18:2.0.0-SNAPSHOT') {
+		exclude group: "io.netty"
+		exclude group: "com.google.guava"
+	}
+}
+
+sourceSets {
+	testmod {
+		runtimeClasspath += main.runtimeClasspath + main.output
+		compileClasspath += main.compileClasspath + main.output
+	}
+}
+
+loom {
+	runs {
+		testmodClient {
+			client()
+			ideConfigGenerated project.rootProject == project
+			name = "Test Mod Client"
+			source sourceSets.testmod
+		}
+		testmodServer {
+			server()
+			ideConfigGenerated project.rootProject == project
+			name = "Test Mod Server"
+			source sourceSets.testmod
+		}
 	}
 }
 
