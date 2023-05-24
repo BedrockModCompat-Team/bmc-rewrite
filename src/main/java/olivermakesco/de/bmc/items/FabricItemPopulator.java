@@ -22,6 +22,7 @@ public class FabricItemPopulator {
 
     public static void populateModdedItems() {
         System.out.println("Registering Items....");
+        System.out.println(Registries.ITEM.size());
 
         for (int i = 0; i < Registries.ITEM.size(); i++) {
             Item item = Registries.ITEM.get(i);
@@ -32,8 +33,8 @@ public class FabricItemPopulator {
             }
         }
 
+        System.out.println(Registries.ITEM.size());
         System.out.println(itemRegistry.size());
         System.out.println(itemIdRegistry.size());
-
     }
 }
