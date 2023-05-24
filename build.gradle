@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.10-SNAPSHOT'
+	id 'fabric-loom' version '0.12-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -9,35 +9,35 @@ targetCompatibility = JavaVersion.VERSION_17
 archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.officialMojangMappings()
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
-	implementation 'org.geysermc:core:2.0.0-SNAPSHOT'
-	implementation 'com.nukkitx:nbt:2.1.1'
-	implementation 'com.nukkitx.protocol:bedrock-v475:2.9.4-SNAPSHOT'
+
+	implementation "com.nukkitx.jackson.dataformat:jackson-dataformat-nbt:2.10.3-SNAPSHOT"
+
+	implementation 'org.geysermc.geyser:api:2.1.0-SNAPSHOT'
+	implementation 'org.geysermc.geyser:core:2.1.0-SNAPSHOT'
 }
 
 repositories {
+	mavenLocal()
 	maven {
-		url = uri('https://repo.opencollab.dev/maven-releases/')
+		url = uri('https://repo.opencollab.dev/main')
 	}
-
 	maven {
-		url = uri('https://repo.opencollab.dev/maven-snapshots/')
+		url = uri('https://oss.sonatype.org/content/repositories/snapshots')
 	}
-
 	maven {
 		url = uri('https://jitpack.io')
 	}
-
 	maven {
-		url = uri('https://oss.sonatype.org/content/repositories/snapshots/')
+		url = uri('https://s01.oss.sonatype.org/content/repositories/snapshots/')
 	}
 }
 
@@ -50,7 +50,6 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 	it.options.release = 17
 }
 
